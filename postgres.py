@@ -18,9 +18,7 @@ try:
 except ImportError:
     pgserver = None
 
-
-# Constants
-WORK_DIR = Path.home() / ".claude-code-mate"
+from constants import WORK_DIR
 
 
 class Postgres:

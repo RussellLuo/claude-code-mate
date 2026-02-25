@@ -19,11 +19,8 @@ import psutil
 import webbrowser
 import yaml
 
+from constants import WORK_DIR, CONFIG_PATH, ensure_work_dir
 from postgres import Postgres
-
-# Constants
-WORK_DIR = Path.home() / ".claude-code-mate"
-CONFIG_PATH = WORK_DIR / "config.yaml"
 
 
 class Platform:
@@ -41,9 +38,6 @@ class ProcessManager:
         self.work_dir = WORK_DIR
         self.pid_file = self.work_dir / f"{name}.pid"
         self.log_file = self.work_dir / f"{name}.log"
-
-        # Ensure work directory exists
-        self.work_dir.mkdir(exist_ok=True)
 
     def is_running(self) -> bool:
         """Check if the service is currently running"""
@@ -569,6 +563,9 @@ This tool manages a LiteLLM proxy running with: litellm --config ~/.claude-code-
         )
 
     args = parser.parse_args()
+
+    # Ensure work directory exists
+    ensure_work_dir()
 
     # Initialize database and get the connection URL
     database_url = Postgres.initialize()
