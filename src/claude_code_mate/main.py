@@ -19,8 +19,8 @@ import psutil
 import webbrowser
 import yaml
 
-from constants import WORK_DIR, CONFIG_PATH, ensure_work_dir
-from postgres import Postgres
+from .constants import WORK_DIR, CONFIG_PATH, ensure_work_dir
+from .postgres import Postgres
 
 
 class Platform:

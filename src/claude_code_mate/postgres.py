@@ -18,7 +18,7 @@ try:
 except ImportError:
     pgserver = None
 
-from constants import WORK_DIR
+from .constants import WORK_DIR
 
 
 class Postgres:
@@ -101,7 +101,7 @@ class Postgres:
 
         # Check if Prisma client is already available
         try:
-            from prisma import Prisma
+            from prisma import Prisma  # noqa: F401
         except RuntimeError as e:
             # Example error message:
             #   The Client hasn't been generated yet, you must run `prisma generate` before you can use the client.
