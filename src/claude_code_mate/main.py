@@ -561,6 +561,12 @@ This tool manages a LiteLLM proxy running with: litellm --config ~/.claude-code-
             help="Open LiteLLM UI in browser",
             description="Open the LiteLLM web UI at http://0.0.0.0:4000/ui in your default browser.",
         )
+        ui_parser.add_argument(
+            "--regenerate",
+            action="store_true",
+            default=False,
+            help="Force regenerate Prisma client from LiteLLM schema (default: False)",
+        )
 
     args = parser.parse_args()
 
@@ -568,7 +574,8 @@ This tool manages a LiteLLM proxy running with: litellm --config ~/.claude-code-
     ensure_work_dir()
 
     # Initialize database and get the connection URL
-    database_url = Postgres.initialize()
+    regenerate = getattr(args, "regenerate", False)
+    database_url = Postgres.initialize(regenerate=regenerate)
 
     # Initialize config file if it doesn't exist
     config_manager = ConfigManager(database_url=database_url)

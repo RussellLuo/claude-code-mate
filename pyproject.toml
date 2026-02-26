@@ -8,7 +8,7 @@ authors = [
 ]
 requires-python = ">=3.8"
 dependencies = [
-    "litellm[proxy]>=1.77.1",
+    "litellm[proxy]==1.81.15",
     "psutil>=5.9.0",
     "PyYAML>=6.0",
 ]

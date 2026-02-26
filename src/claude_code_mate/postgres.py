@@ -94,19 +94,23 @@ class Postgres:
         return pgserver is not None
 
     @classmethod
-    def initialize(cls) -> str:
+    def initialize(cls, regenerate: bool = False) -> str:
         """Initialize database with Prisma client generation and PostgreSQL setup."""
         if not cls.has_ui():
             return ""
 
-        # Check if Prisma client is already available
-        try:
-            from prisma import Prisma  # noqa: F401
-        except RuntimeError as e:
-            # Example error message:
-            #   The Client hasn't been generated yet, you must run `prisma generate` before you can use the client.
-            if "prisma generate" in str(e):
-                cls._generate_prisma_client()
+        if regenerate:
+            # Always regenerate Prisma client if requested
+            cls._generate_prisma_client()
+        else:
+            # Check if Prisma client is already available
+            try:
+                from prisma import Prisma  # noqa: F401
+            except RuntimeError as e:
+                # Example error message:
+                #   The Client hasn't been generated yet, you must run `prisma generate` before you can use the client.
+                if "prisma generate" in str(e):
+                    cls._generate_prisma_client()
 
         pg = pgserver.get_server(cls.data_dir, cleanup_mode=None)
         # Manually construct URI with proper host:port for Prisma compatibility.
